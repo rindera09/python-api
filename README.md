@@ -13,12 +13,13 @@ fox = Fox(render_server="www5.renderbus.com", account="XXX", access_key="XXX", a
 
 2. Upload local files to cloud server, skip exists same files by default, you can upload the files and folders.
 ```py
-fox.upload(path_list=[r"v:\project\shot\lgt.ma", r"v:\project\asset\sourceimages])
+fox.upload(path_list=[r"v:\project\shot\lgt.ma", r"v:\project\asset\sourceimages"])
 ```
 
 3. After all the dependancy files of Maya file has been uploaded, you can submit task to cloud server.
 ```py
-fox.submit_task(project_name="XXX", input_scene_path=r"v:\project\shot\lgt.ma", frames="1-10[1]") ```
+fox.submit_task(project_name="XXX", input_scene_path=r"v:\project\shot\lgt.ma", frames="1-10[1]")
+```
 
 4. After render complete, you can download the entire task output files from cloud server, and single frame output files downloading is not supported yet currently. The download method would skip exists same files which already downloaded by default
 ```py
