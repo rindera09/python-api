@@ -4,24 +4,27 @@ We provides a simple Python-based API for using our cloud rendering service. Thi
 The latest version can always be found at
 https://github.com/renderbus/python-api
 
+## Requirement
+- requests (We already test ok with requests 2.11.1)
+
 ## Submiting Step
 
-1. Login to our cloud server first. currently, some info like access_key need to ask us support team.
+- Login to our cloud server first. currently, some info like access_key need to ask us support team.
 ```py
 fox = Fox(render_server="www5.renderbus.com", account="XXX", access_key="XXX", aspera_server="app5.renderbus.com", aspera_password="XXX")
 ```
 
-2. Upload local files to cloud server, skip exists same files by default, you can upload the files and folders.
+- Upload local files to cloud server, skip exists same files by default, you can upload the files and folders.
 ```py
 fox.upload(path_list=[r"v:\project\shot\lgt.ma", r"v:\project\asset\sourceimages"])
 ```
 
-3. After all the dependancy files of Maya file has been uploaded, you can submit task to cloud server.
+- After all the dependancy files of Maya file has been uploaded, you can submit task to cloud server.
 ```py
 fox.submit_task(project_name="XXX", input_scene_path=r"v:\project\shot\lgt.ma", frames="1-10[1]")
 ```
 
-4. After render complete, you can download the entire task output files from cloud server, and single frame output files downloading is not supported yet currently. The download method would skip exists same files which already downloaded by default
+- After render complete, you can download the entire task output files from cloud server, and single frame output files downloading is not supported yet currently. The download method would skip exists same files which already downloaded by default
 ```py
 fox.download(task_id=11111, local_path=r"v:\project\output")
 ```
