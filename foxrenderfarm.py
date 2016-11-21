@@ -13,12 +13,14 @@ class Api(object):
     def __init__(self, render_server):
         self.url = 'https://%s/api/v1/task' % (render_server)
         self.headers = {"Content-Type": "application/json"}
+        self.debug = 0
 
     def post(self, data):
-        # print "\n"
-        # print "Post data:"
-        # pprint.pprint(data)
-        # print "\n"
+        if self.debug:
+            print "\n"
+            print "Post data:"
+            pprint.pprint(data)
+            print "\n"
 
         if isinstance(data, dict):
             data = json.dumps(data)
