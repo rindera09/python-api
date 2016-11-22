@@ -62,7 +62,7 @@ class Fox(Api):
         else:
             raise Exception("account or access_key is not valid.")
 
-    def submit_task(self, project_name, input_scene_path, frames):
+    def submit_task(self, project_name, input_scene_path, frames, task_info={}):
         data = copy.deepcopy(self.data)
         data["head"]["action"] = "create_task"
 
@@ -70,6 +70,10 @@ class Fox(Api):
         data["body"]["submit_account"] = data["head"]["account"]
         data["body"]["input_scene_path"] = input_scene_path.replace(":", "").replace("\\", "/")
         data["body"]["frames"] = frames
+
+        if task_info:
+            for i in task_info:
+                data["body"][i] = task_info[i]
 
         project = self.get_projects(project_name)
         if not project:
