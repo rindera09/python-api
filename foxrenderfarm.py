@@ -124,7 +124,7 @@ class Fox(Api):
         else:
             return []
 
-    def get_tasks(self, task_id=None, project_name=None, has_frames=0):
+    def get_tasks(self, task_id=None, project_name=None, has_frames=0, task_filter={}):
         data = copy.deepcopy(self.data)
         data["head"]["action"] = "query_task"
 
@@ -136,6 +136,10 @@ class Fox(Api):
 
         if has_frames:
             data["body"]["is_jobs_included"] = "1"
+
+        if task_filter:
+            for i in task_filter:
+                data["body"][i] = task_filter[i]
 
         result = self.post(data)
         if result["head"]["result"] == "0":
