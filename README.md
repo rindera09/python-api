@@ -30,7 +30,7 @@ fox.submit_task(project_name="XXX", input_scene_path=r"v:\project\shot\lgt.ma", 
 fox.download(task_id=11111, local_path=r"v:\project\output")
 ```
 
-## Query method
+## Query Method
  - get user info
 ```py
 fox.get_users()
@@ -65,3 +65,6 @@ fox.get_tasks(task_id=11111)
 ```py
 fox.get_tasks(task_id=11111, has_frames=1)
 ```
+
+## HTTP API Manual
+Generally, This is not necessary to see this manual, but if you like you can find the latest version HTTP API Manual at https://innerx.gitbooks.io/rayvision-render-api/content/, we only have a chinese version of manual currently.
