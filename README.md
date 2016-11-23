@@ -25,6 +25,16 @@ fox.upload(path_list=[r"v:\project\shot\lgt.ma", r"v:\project\asset\sourceimages
 fox.submit_task(project_name="XXX", input_scene_path=r"v:\project\shot\lgt.ma", frames="1-10[1]")
 ```
 
+- You can also try below mnethod to add some extra info to submit the task.
+```py
+task_info = {"project_name": "api",
+               "input_scene_path": r"E:\test_files\2014_api_camera_layer.mb",
+               "frames": "1073-1073[1]",
+               "render_layer": "ball",
+               "camera": "camera1"}
+fox.submit_task(**task_info)
+```
+
 - After rendering complete, you can download the entire task output files from cloud server, but single frame download function is not supported yet. The download method will skip the existing same files which already downloaded by default.
 ```py
 fox.download(task_id=11111, local_path=r"v:\project\output")
