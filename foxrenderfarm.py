@@ -62,26 +62,30 @@ class Fox(Api):
         else:
             raise Exception("account or access_key is not valid.")
 
-    def submit_task(self, project_name, input_scene_path, frames, task_info={}):
+    def submit_task(self, **kwargs):
         data = copy.deepcopy(self.data)
         data["head"]["action"] = "create_task"
 
-        data["body"]["project_name"] = project_name
+        if kwargs:
+            for i in kwargs:
+                data["body"][i] = kwargs[i]
+            if "project_name" not in kwargs:
+                raise Exception("Missing project_name args, please check.")
+            if "input_scene_path" not in kwargs:
+                raise Exception("Missing input_scene_path args, please check.")
+            if "frames" not in kwargs:
+                raise Exception("Missing frames, please check args.")
+
+        data["body"]["input_scene_path"] = data["body"]["input_scene_path"].replace(":", "").replace("\\", "/")
         data["body"]["submit_account"] = data["head"]["account"]
-        data["body"]["input_scene_path"] = input_scene_path.replace(":", "").replace("\\", "/")
-        data["body"]["frames"] = frames
 
-        if task_info:
-            for i in task_info:
-                data["body"][i] = task_info[i]
-
-        project = self.get_projects(project_name)
+        project = self.get_projects(kwargs["project_name"])
         if not project:
-            raise Exception("Project <%s> doesn't exists." % (project_name))
+            raise Exception("Project <%s> doesn't exists." % (kwargs["project_name"]))
 
         plugins = project[0]["plugins"]
         if not plugins:
-            raise Exception("Project <%s> doesn't have any plugin settings." % (project_name))
+            raise Exception("Project <%s> doesn't have any plugin settings." % (kwargs["project_name"]))
 
         default_plugin = [i for i in plugins
                           if "is_default" in i if i["is_default"] == '1']
@@ -90,7 +94,7 @@ class Fox(Api):
             default_plugin = plugins
 
         if not default_plugin:
-            raise Exception("Project <%s> doesn't have a default plugin settings." % (project_name))
+            raise Exception("Project <%s> doesn't have a default plugin settings." % (kwargs["project_name"]))
 
         data["body"]["cg_soft_name"] = default_plugin[0]["cg_soft_name"]
         if "plugin_name" in default_plugin[0]:
@@ -100,6 +104,7 @@ class Fox(Api):
         if result["head"]["result"] == '0':
             return int(result["body"]["data"][0]["task_id"])
         else:
+            pprint.pprint(result)
             return -1
 
     def get_users(self, has_child_account=0):
