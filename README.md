@@ -61,6 +61,13 @@ fox.get_projects(project_name="XXX")
 fox.get_tasks()
 ```
 
+- get task using task filter
+```py
+task_filter={"project_name": "XXX", "task_status": "0"}
+task_filter={"project_name": "XXX", "task_status": "3"}
+fox.get_tasks(task_filter=task_filter)
+```
+
 - get all tasks of specific project
 ```py
 fox.get_tasks(project_name="XXX")
