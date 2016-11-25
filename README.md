@@ -63,8 +63,8 @@ fox.get_tasks()
 
 - get task using task filter
 ```py
-task_filter={"project_name": "XXX", "task_status": "0"}
-task_filter={"project_name": "XXX", "task_status": "3"}
+task_filter={"project_name": "XXX", "task_status": "Start"}
+task_filter={"project_name": "XXX", "task_status": "System_Done"}
 fox.get_tasks(task_filter=task_filter)
 ```
 
