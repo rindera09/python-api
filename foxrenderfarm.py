@@ -270,3 +270,35 @@ class Fox(Api):
             for line in list_data:
                 f.write(str(line) + "\n")
         print "[INFO]:" + save_path + " has saved."
+
+
+
+    """ NO 7.2.4 Add config for project
+    :param project_id: the id of the existed project you choose
+    :param cg_soft_name: the software you use
+    :param plugin_name: the plugin you use
+    :param is_default: make it as default setting 
+    :param kwargs: can be used to pass more arguments, not necessary
+
+    """
+    def add_project_config(self, project_id, cg_soft_name, plugin_name=None,
+                                is_default=0, **kwargs):
+        data = copy.deepcopy(self.data)
+        data["head"]["action"] = "operate_project"
+        data["body"]["operate_type"] = 0
+
+
+        data["body"]["project_id"] = int(project_id)
+        data["body"]["cg_soft_name"] = cg_soft_name
+        if plugin_name:
+            data["body"]["plugin_name"] = plugin_name
+        data["body"]["is_default"] = is_default
+        for key,value in kwargs.items():
+            data["body"][key] = value
+
+        result = self.post(data=data)
+        if result["head"]["result"] == "0":
+            return True
+        else:
+            self._message_output("ERROR", result["head"]["error_message"])
+            return False
