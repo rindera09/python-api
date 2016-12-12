@@ -236,3 +236,37 @@ class Fox(Api):
 
     def _message_output(self, msg_type=None, msg=None):
         print "[{0}]: {1}".format(msg_type, msg)
+
+
+    """ NO: 7.2.2  Query plugins
+        :param kwargs: can be used to pass more arguments, not necessary
+                   including cg_soft_name, plugin_name
+        Here some examples::
+                get_plugin()
+                get_plugin(cg_soft_name="3ds Max 2010")
+                get_plugin(cg_soft_name="3ds Max 2010", plugin_name="finalrender 3.5sp6")
+    """
+    def get_plugins_available(self, **kwargs):
+        data = copy.deepcopy(self.data)
+        data["head"]["action"] = "query_plugin"
+        for key, value in kwargs.items():
+            data["body"][key] = value       
+
+        result = self.post(data=data)
+        if result["head"]["result"] == "0":
+            self._save_list2file(result["body"], "plugins.txt")
+            return True, result["body"]
+        else:
+            self._message_output("ERROR", result["head"]["error_message"])
+            return False
+
+
+    def _save_list2file(self, list_data, file_name, remark="\n"):
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        save_path = os.path.join(basedir, file_name)
+        with open(save_path,"a+") as f:
+            if remark:
+                f.write(remark)
+            for line in list_data:
+                f.write(str(line) + "\n")
+        print "[INFO]:" + save_path + " has saved."
