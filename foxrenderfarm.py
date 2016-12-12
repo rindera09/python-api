@@ -302,3 +302,31 @@ class Fox(Api):
         else:
             self._message_output("ERROR", result["head"]["error_message"])
             return False
+
+
+    """ NO 7.2.4 Delete config for project
+    :param project_id: the id of the existed project you choose
+    :param config_id: the id of configuration you want to delete
+                      if not pass this argument it will delete all
+                      you can use "get_projects" to get config_id
+    :param kwargs: can be used to pass more arguments, not necessary
+
+    """
+    def delete_project_config(self, project_id, config_id=None, **kwargs):
+        data = copy.deepcopy(self.data)
+        data["head"]["action"] = "operate_project"
+        data["body"]["operate_type"] = 2        
+
+        data["body"]["project_id"] = int(project_id)
+        if config_id:
+            data["body"]["config_id"] = int(config_id)
+        for key,value in kwargs.items():
+            data["body"][key] = value
+
+        result = self.post(data=data)
+        if result["head"]["result"] == "0":
+            self._message_output("INFO", "configuration delete")
+            return True
+        else:
+            self._message_output("ERROR", result["head"]["error_message"])
+            return False
