@@ -270,3 +270,26 @@ class Fox(Api):
             for line in list_data:
                 f.write(str(line) + "\n")
         print "[INFO]:" + save_path + " has saved."
+
+
+    """ NO 7.1.3 Delete the tasks
+        :param task_id:  the tasks you what to delete
+        
+        Here some example::  delete_tasks("123")
+                             delete_tasks(["123", "456"])
+    """
+    def delete_tasks(self, task_id):
+        data = copy.deepcopy(self.data)
+        data["head"]["action"] = "operate_task"
+        data["body"]["operate_order"] = "2"        
+        if isinstance(task_id, list) and len(task_id) > 1:
+            task_id = ''.join(map(lambda id: str(id)+",", task_id[:-1])) + str(task_id[-1])        
+        data["body"]["task_id"] = str(task_id)
+
+        result = self.post(data=data)
+        if result["head"]["result"] == "0":
+            self._message_output("INFO", "task {0} deleted.".format(task_id))
+            return True
+        else:
+            self._message_output("ERROR", result["head"]["error_message"])
+            return False
