@@ -270,3 +270,31 @@ class Fox(Api):
             for line in list_data:
                 f.write(str(line) + "\n")
         print "[INFO]:" + save_path + " has saved."
+
+
+    """ NO 7.1.3 Restart the tasks
+        :param task_id:  the tasks you what to restart
+        :param restart_type:  0 -- restart the failed frames
+                              1 -- restart the frames that give up
+                              2 -- restart the finished frames 
+                              3 -- restart the start frames
+                              4 -- restart the waiting frames 
+        Here some example::  restart_tasks("123", "0")
+                             restart_tasks(["123", "456"], "3")
+    """
+    def restart_tasks(self, task_id, restart_type="0"):
+        data = copy.deepcopy(self.data)
+        data["head"]["action"] = "operate_task"
+        data["body"]["operate_order"] = "1"
+        data["body"]["restart_type"] = str(restart_type)
+        if isinstance(task_id, list) and len(task_id) > 1:
+            task_id = ''.join([str(id)+',' for id in task_id[:-1]]) + str(task_id[-1])
+        data["body"]["task_id"] = str(task_id)
+
+        result = self.post(data=data)
+        if result["head"]["result"] == "0":
+            self._message_output("INFO", "task {0} restart.".format(task_id))
+            return True
+        else:
+            self._message_output("ERROR", result["head"]["error_message"])
+            return False
