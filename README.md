@@ -12,7 +12,7 @@ https://github.com/renderbus/python-api
 
 - Login in our cloud server account first, some information such as access key, you need ask for our support team.
 ```py
-fox = Fox(render_server="www5.renderbus.com", account="XXX", access_key="XXX", aspera_server="app5.renderbus.com", aspera_password="XXX")
+fox = Fox(render_server="www5.renderbus.com", account="XXX", access_key="XXX")
 ```
 
 - Upload local files or folders to cloud server and skip the existing same file by default.
@@ -20,12 +20,22 @@ fox = Fox(render_server="www5.renderbus.com", account="XXX", access_key="XXX", a
 fox.upload(path_list=[r"v:\project\shot\lgt.ma", r"v:\project\asset\sourceimages"])
 ```
 
+- Create the project
+```py
+fox.create_project(project_name="XXX")
+```
+
+- Add the plugins setting for project
+```py
+fox.add_project_config(10000, "maya 2014", "pgYetiMaya 1.3.17")
+```
+
 - After all the dependancy files of Maya Task such as texture, cache etc have been uploaded, you can submit task to cloud server.
 ```py
 fox.submit_task(project_name="XXX", input_scene_path=r"v:\project\shot\lgt.ma", frames="1-10[1]")
 ```
 
-- You can also try below mnethod to add some extra info to submit the task.
+- You can also try below method to add some extra info to submit the task.
 ```py
 task_info = {"project_name": "api",
                "input_scene_path": r"E:\test_files\2014_api_camera_layer.mb",
