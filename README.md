@@ -93,7 +93,7 @@ fox.get_tasks(task_id=11111)
 fox.get_tasks(task_id=11111, has_frames=1)
 ```
 
-## Some operate plugins configuration for project
+## Operate plugins configuration for project
 
 - get the software and plugin configuration for project that support by rayvision
 ```py
