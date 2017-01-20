@@ -93,5 +93,58 @@ fox.get_tasks(task_id=11111)
 fox.get_tasks(task_id=11111, has_frames=1)
 ```
 
+## Operate plugins configuration for project
+
+- get the software and plugin configuration for project that support by rayvision
+```py
+fox.get_plugins_available()
+```
+
+- add the software and plugin configuration for project
+```py
+fox.add_project_config(project_id=10000, cg_soft_name="maya 2014", plugin_name="pgYetiMaya 1.3.17", is_default=0)
+```
+
+- delete software and plugin configuration for project
+```py
+fox.delete_project_config(project_id=12345, config_id=45678)
+```
+(you can use "get_project_info" to get config_id)
+
+- modify the software and plugin configuration for project
+```py
+fox.modify_project_config(project_id=12345, config_id=23456, cg_soft_name="maya 2014", plugin_name="pgYetiMaya 1.3.17", is_default=1)
+```
+
+## some operation of task
+
+- submit_task()
+- get_tasks()
+
+- stop the task
+
+```py
+fox.stop_tasks()
+```
+
+- delete the task
+
+```py 
+fox.delete_tasks(task_id=12345)
+```
+
+- restart the task
+
+```py
+fox.restart_tasks(task_id=12345, restart_type=1)
+```
+
+restart_type:  0 -- restart the failed frames
+               1 -- restart the frames that give up
+               2 -- restart the finished frames 
+               3 -- restart the start frames
+               4 -- restart the waiting frames 
+
+
 ## HTTP API Manual
 Generally, This is not necessary to see this manual, but if you like you can find the latest version HTTP API Manual at https://innerx.gitbooks.io/rayvision-render-api/content/, we only have a chinese version of manual currently.
